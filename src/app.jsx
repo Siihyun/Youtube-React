@@ -8,23 +8,29 @@ function App({ youtube }) {
   const [videos, setVideos] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
 
+  const selectVideo = useCallback((video) => {
+    setSelectedVideo(video);
+  }, []);
+
   useEffect(() => {
     youtube
       .getPopularVideo() //
       .then((response) => [...response.data.items])
       .then((videos) => setVideos(videos));
-  }, []);
+  }, [youtube]);
 
-  const search = useCallback((query) => {
-    youtube
-      .videoSearch(query) //
-      .then((response) => [...response.data.items])
-      .then((videos) => setVideos(videos));
-  }, []);
-
-  const selectVideo = (video) => {
-    setSelectedVideo(video);
-  };
+  const search = useCallback(
+    (query) => {
+      youtube
+        .videoSearch(query) //
+        .then((response) => [...response.data.items])
+        .then((videos) => {
+          setVideos(videos);
+          selectVideo(null);
+        });
+    },
+    [youtube, selectVideo]
+  );
 
   return (
     <div className={styles.app}>
