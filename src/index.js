@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./app";
 import Youtube from "./service/youtubeAPI";
 
-const youtube = new Youtube("AIzaSyBz0OPKsnb9XzSoJ0HJXrotlHndFYydGXo");
+const youtube = new Youtube(process.env.REACT_APP_YOUTUBE_API_KEY);
 
 ReactDOM.render(
   <React.StrictMode>
